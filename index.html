@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connecting to your Testnet</title>
+
+</head>
+<body>
+    
+<div class="container">
+
+        <input type="text" id="amount" placeholder="Enter amount"><br>
+
+        <p id="balance">0</p>
+
+        <button id="deposit">Deposit</button>
+        <button id="withdraw">Withdraw</button>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.1.2/web3.min.js" integrity="sha512-SY8ZHHpr1VtCWQ3a+YWBORQfRmBCZeSWgR5YJ7gW3XyhylLfIjPjva9fPc9xrjgFxFA95+7+ch7i15ykPiVcLQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- <script src=" https://www.jsdelivr.com/package/gh/ethereum/web3.js"></script> -->
+<script>
+
+var contract;
+
+$(document).ready(function(){
+    // window.web3=new web3(window.ethereum);
+    web3=new web3(web3.currentProvider);
+
+    var abi=[
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "owner",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "depositMoney",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "returnbalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint152",
+				"name": "amount",
+				"type": "uint152"
+			}
+		],
+		"name": "withdrawMoney",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
+
+    var address="0xCA1098BF89C43aE5bAAF18Ef698BEE42CC91044B"
+
+    contract=new web3.eth.Contract(abi,address);
+
+    contract.methods.returnbalance().call().then(function(bal){
+        $("#balance").html(bal)
+    })
+})
+
+
+</script>    
+</body>
+</html>
